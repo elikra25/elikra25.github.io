@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Katherine Lockard, Eli Kravez" />
+
+
+<title>Case Study 01</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="DDS_Ver6.html">CLT</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Case Study 01</h1>
+<h4 class="author">Katherine Lockard, Eli Kravez</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this case study, we will analyze beers and breweries in the US. We worked with two data sets. One dataset contained 2410 different beers, and the other contained 558 breweries in the United States. Later, we will analyze alcohol content and bitterness for these beers, determine if they are related, and if there are trends in certain states.</p>
+<p>First, make sure required libraries are installed. Some important ones we used are: e1071 for Naive Bayes, ggplot2 for visualization, usmap to create the us map, caret &amp; class were used for kNN, and visdat to visualize missing values. If an error is given, try installing tinytex using the comment below.</p>
+<pre class="r"><code>  packages &lt;- c(&quot;ggplot2&quot;, &quot;visdat&quot;, &quot;leaps&quot;, &quot;ggcorrplot&quot;, &quot;leaps&quot;, &quot;plotrix&quot;, &quot;e1071&quot;)
+
+  #Tinytex installation, if error arises
+  #tinytex::install_tinytex()
+
+  # Install packages not yet installed
+  installed_packages &lt;- packages %in% rownames(installed.packages())
+  if (any(installed_packages == FALSE)) {
+    install.packages(packages[!installed_packages])
+  }
+
+  library(ggcorrplot)
+  library(visdat)
+  library(dplyr)
+  library(tidyverse)
+  library(plyr)
+  library(leaps)
+  library(zoo)
+  library(ggplot2)
+  library(GGally)
+  library(plotrix)
+  library(usmap)
+  library(ggthemes)
+  library(caret)
+  library(class)
+  library(e1071)</code></pre>
+</div>
+<div id="read-data" class="section level2">
+<h2>Read Data</h2>
+<p>Read data from Beers and Breweries data sets. Make sure to update the file path before running this code.</p>
+<pre class="r"><code>Beers &lt;- read.csv(&quot;Beers.csv&quot;, header=T, na.strings=c(&quot;&quot;,&quot;NA&quot;))
+Breweries &lt;- read.csv(&quot;Breweries.csv&quot;, header=T, na.strings=c(&quot;&quot;,&quot;NA&quot;))</code></pre>
+</div>
+<div id="question-1-how-many-breweries-are-present-in-each-state" class="section level2">
+<h2>Question 1: How many breweries are present in each state?</h2>
+<p>In the following histograms, you can see the number of breweries in each state. Colorado has the most breweries, followed second by California. We also see that West Virginia, Delaware, North Dakota, and South Dakota only have one brewery in their state. Next, you can see a map of the United States that shows the number of breweries per state. The lighter red indicates fewer breweries, and the darker red indicates more breweries. Finally, we created a pie chart to visualize what percentage of the country’s breweries is in the top states. Colorado, California, and Michigan hold the most breweries per state in the US. They account for 21% of the entire nation’s breweries.</p>
+<pre class="r"><code>#Create a table with number of breweries per state
+Breweries.By.State &lt;- Breweries %&gt;% group_by(State) %&gt;% dplyr::summarise(count = n()) %&gt;%
+  arrange(desc(count)) 
+Breweries.By.State</code></pre>
+<pre><code>## # A tibble: 51 x 2
+##    State count
+##    &lt;chr&gt; &lt;int&gt;
+##  1 &quot; CO&quot;    47
+##  2 &quot; CA&quot;    39
+##  3 &quot; MI&quot;    32
+##  4 &quot; OR&quot;    29
+##  5 &quot; TX&quot;    28
+##  6 &quot; PA&quot;    25
+##  7 &quot; MA&quot;    23
+##  8 &quot; WA&quot;    23
+##  9 &quot; IN&quot;    22
+## 10 &quot; WI&quot;    20
+## # ... with 41 more rows</code></pre>
+<pre class="r"><code>#Plot in descending order by # of breweries per state
+Breweries.By.State %&gt;% ggplot(aes(x = reorder(State, -count) , y = count, fill = State)) + geom_bar(stat = &quot;identity&quot;) + ggtitle(&quot;Breweries in Each State&quot;, &quot;In Descending Order&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-1.png" width="1440" /></p>
+<pre class="r"><code>#Plot in alphabetical order of States
+ggplot(Breweries.By.State, mapping = aes(x = State, y = count, fill = State)) + geom_bar(stat = &quot;identity&quot;) + ggtitle(&quot;Breweries in Each State&quot;, &quot;In Alphabetical Order by State&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-2.png" width="1440" /></p>
+<pre class="r"><code>#Create the US Map showing distribution of breweries
+Breweries.By.State.Graph &lt;- Breweries.By.State
+Breweries.By.State.Graph$State &lt;- trimws(Breweries.By.State.Graph$State)
+colnames(Breweries.By.State.Graph)[colnames(Breweries.By.State.Graph) == &quot;State&quot;] &lt;- &quot;state&quot;
+plot_usmap(data = Breweries.By.State.Graph, values = &quot;count&quot;, color = &quot;red&quot;, labels=TRUE) + 
+  scale_fill_continuous(
+    low = &quot;white&quot;, high = &quot;red&quot;, name = &quot;Breweries per State&quot;, label = scales::comma
+  ) + theme(legend.position = &quot;right&quot;) + 
+  ggtitle(&quot;Breweries per State&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-3.png" width="1440" /></p>
+<pre class="r"><code>#Pie Chart showing percentage of breweries held by top three states 
+Breweries.By.State.Graph</code></pre>
+<pre><code>## # A tibble: 51 x 2
+##    state count
+##    &lt;chr&gt; &lt;int&gt;
+##  1 CO       47
+##  2 CA       39
+##  3 MI       32
+##  4 OR       29
+##  5 TX       28
+##  6 PA       25
+##  7 MA       23
+##  8 WA       23
+##  9 IN       22
+## 10 WI       20
+## # ... with 41 more rows</code></pre>
+<pre class="r"><code>top.3.States.Breweries &lt;- sum(subset(Breweries.By.State.Graph, 
+                                     state == &quot;CO&quot; |
+                                     state == &quot;CA&quot; | 
+                                     state == &quot;MI&quot; )$count)
+
+other.Breweries &lt;- sum(Breweries.By.State.Graph$count) - top.3.States.Breweries
+
+slices &lt;- c(top.3.States.Breweries, other.Breweries)
+lbls &lt;- c(&quot;Top 3 &quot;, &quot;others&quot;)
+pct &lt;- round(slices/sum(slices)*100)
+lbls &lt;- paste(lbls, pct) # add percents to labels
+lbls &lt;- paste(lbls,&quot;%&quot;,sep=&quot;&quot;) # ad % to labels
+pie(slices, labels = lbls, main=&quot;Percentage of Breweries Held by CO, CA, and MI&quot;, col=rainbow(length(lbls)))</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-4.png" width="1440" /></p>
+</div>
+<div id="question-2-merge-data" class="section level2">
+<h2>Question 2: Merge Data</h2>
+<p>Here, we merged the breweries dataset with the beers dataset and stored this in a new data frame called brewByState. We merged these datasets using brewery ID. Below, you can see the first and last six entries printed.</p>
+<pre class="r"><code>#Merge Beers and Breweries datasets using Brewery ID
+brewByState &lt;- merge(Beers, Breweries, by.x=c(&quot;Brewery_id&quot;),
+                     by.y=c(&quot;Brew_ID&quot;))
+#Rename columns after merge
+colnames(brewByState)[2] &lt;- &quot;BeerName&quot;
+colnames(brewByState)[8] &lt;- &quot;Brewery&quot;
+#Print first six entries in new data frame
+brewByState[1:6,]</code></pre>
+<pre><code>##   Brewery_id      BeerName Beer_ID   ABV IBU                               Style Ounces            Brewery        City State
+## 1          1  Get Together    2692 0.045  50                        American IPA     16 NorthGate Brewing  Minneapolis    MN
+## 2          1 Maggie&#39;s Leap    2691 0.049  26                  Milk / Sweet Stout     16 NorthGate Brewing  Minneapolis    MN
+## 3          1    Wall&#39;s End    2690 0.048  19                   English Brown Ale     16 NorthGate Brewing  Minneapolis    MN
+## 4          1       Pumpion    2689 0.060  38                         Pumpkin Ale     16 NorthGate Brewing  Minneapolis    MN
+## 5          1    Stronghold    2688 0.060  25                     American Porter     16 NorthGate Brewing  Minneapolis    MN
+## 6          1   Parapet ESB    2687 0.056  47 Extra Special / Strong Bitter (ESB)     16 NorthGate Brewing  Minneapolis    MN</code></pre>
+<pre class="r"><code>#Print the last six entries in new data frame
+last = nrow(brewByState)
+prev = last - 5
+brewByState[prev:last,]</code></pre>
+<pre><code>##      Brewery_id                  BeerName Beer_ID   ABV IBU                   Style Ounces                       Brewery          City State
+## 2405        556             Pilsner Ukiah      98 0.055  NA         German Pilsener     12         Ukiah Brewing Company         Ukiah    CA
+## 2406        557  Heinnieweisse Weissebier      52 0.049  NA              Hefeweizen     12       Butternuts Beer and Ale Garrattsville    NY
+## 2407        557           Snapperhead IPA      51 0.068  NA            American IPA     12       Butternuts Beer and Ale Garrattsville    NY
+## 2408        557         Moo Thunder Stout      50 0.049  NA      Milk / Sweet Stout     12       Butternuts Beer and Ale Garrattsville    NY
+## 2409        557         Porkslap Pale Ale      49 0.043  NA American Pale Ale (APA)     12       Butternuts Beer and Ale Garrattsville    NY
+## 2410        558 Urban Wilderness Pale Ale      30 0.049  NA        English Pale Ale     12 Sleeping Lady Brewing Company     Anchorage    AK</code></pre>
+</div>
+<div id="question-3-missing-values" class="section level2">
+<h2>Question 3: Missing Values</h2>
+<p>After merging the two data sets, we visualized the missing data. 41.7% of IBU values, 2.57% of ABV values were missing, and .21% of Style values were missing. We elected to replace the missing IBU and ABV values using the median value for each corresponding beer style. After this first replacement, there were no missing ABV values; however, there were a remaining 52 missing IBU values. This is because there were 9 beer styles that had no pre-existing IBU information. In the histogram of this missing information, we can see that most of these beers are ciders. We chose to replace these IBU values with the global median IBU value. We did not replace the missing style values because we did not think it would impact future analysis with the data.</p>
+<pre class="r"><code>#Visualize missing data
+vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After merging beers and breweries&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code># replace NA with Median by Style - if exists
+# na.aggregate: Replace NA by Aggregation
+brewByState &lt;- as.data.frame(brewByState %&gt;%
+                               group_by(Style) %&gt;%
+                               mutate_at(c(&quot;ABV&quot;, &quot;IBU&quot;),
+                                         na.aggregate, FUN=median))
+
+# after first na treatment we still have 2.57% of missing values for IBU
+vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After replacing missing values with median by style&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code>#Create data frame to plot the distribution of beer styles with no IBU information
+stillMissingIBUs &lt;- brewByState %&gt;% filter(is.na(IBU))
+ggplot(stillMissingIBUs, mapping = aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) + ggtitle(&quot;Beer Styles Without Pre-Existing IBU Values&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<pre class="r"><code># the percentage of missing values is rather small -&gt; we will replace it with global median
+brewByState$IBU[is.na(brewByState$IBU)]&lt;-median(brewByState$IBU,na.rm=TRUE)
+
+vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After replacing remaining values with global median&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-4.png" width="672" /> #Question 4: Compute the median alcohol content and IBU for each state After calculating the median ABV for each state, the range of these values is 4.0% - 6.5% and the mean is 5.0%. The range of the median IBUs is 17.75 – 60.5 and the mean is 33.11. Delaware &amp; West Virginia are outliers and only have two beers from each state.</p>
+<pre class="r"><code>#Show summary statistics for median ABV and IBU
+brewByState.Stats &lt;- brewByState %&gt;% group_by(State) %&gt;% 
+  dplyr::summarise(medianABV = median(ABV), medianIBU = median(IBU), maxABV = max(ABV), maxIBU = max(IBU))  
+brewByState.Stats</code></pre>
+<pre><code>## # A tibble: 51 x 5
+##    State medianABV medianIBU maxABV maxIBU
+##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 &quot; AK&quot;    0.056       31    0.068     71
+##  2 &quot; AL&quot;    0.06        39.5  0.093    103
+##  3 &quot; AR&quot;    0.052       31    0.061     41
+##  4 &quot; AZ&quot;    0.055       21.5  0.095     99
+##  5 &quot; CA&quot;    0.058       40    0.099    115
+##  6 &quot; CO&quot;    0.06        35    0.128    104
+##  7 &quot; CT&quot;    0.06        31    0.09      91
+##  8 &quot; DC&quot;    0.0625      27    0.092    115
+##  9 &quot; DE&quot;    0.06        60.5  0.065     69
+## 10 &quot; FL&quot;    0.0555      35.8  0.082     82
+## # ... with 41 more rows</code></pre>
+<pre class="r"><code>#Print graph of Median ABV by State
+brewByState.Stats %&gt;% ggplot(aes(x = reorder(State, -medianABV) , y = medianABV)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;)+
+  ggtitle(&quot;Median ABV by State&quot;) +
+  xlab(&quot;State&quot;) + ylab(&quot;Median ABV&quot;) +
+  theme_economist()</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
+<pre class="r"><code>#Print graph of Median IBU by State
+brewByState.Stats %&gt;% ggplot(aes(x = reorder(State, -medianIBU) , y = medianIBU)) + 
+  geom_bar(stat = &quot;identity&quot; , color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;)+
+  ggtitle(&quot;Median IBU by State&quot;) +
+  xlab(&quot;State&quot;) + ylab(&quot;Median IBU&quot;) +
+  theme_economist()</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-2.png" width="1440" /></p>
+<pre class="r"><code>#Print graph showing relationship between Median IBU and Median ABV
+brewByState.Stats %&gt;%
+ggplot(aes(x =  medianIBU , y = medianABV)) + geom_point() + 
+  geom_smooth(method=lm, linetype=&quot;dashed&quot;,
+              color=&quot;darkred&quot;, fill=&quot;red&quot;) +
+  ggtitle(&quot;Median ABV VS median IBU by State&quot;)+
+   theme_economist()</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-3.png" width="1440" /></p>
+<pre class="r"><code>#Calculate pearson correlation for median IBU and ABV
+pearson.cor &lt;- round(cor(brewByState.Stats$medianIBU, brewByState.Stats$medianABV),2)
+pearson.cor</code></pre>
+<pre><code>## [1] 0.29</code></pre>
+<pre class="r"><code>#Show beers in Delaware in West Virginia.. Only two beers in each state.
+brewByState %&gt;% filter(State == &quot; DE&quot;)</code></pre>
+<pre><code>##   Brewery_id            BeerName Beer_ID   ABV IBU                   Style Ounces                        Brewery       City State
+## 1        317    Appreciation Ale    1784 0.065  69            American IPA     16 Iron Hill Brewery &amp; Restaurant Wilmington    DE
+## 2        540 Greenville Pale Ale     433 0.055  52 American Pale Ale (APA)     12     Twin Lakes Brewing Company Greenville    DE</code></pre>
+<pre class="r"><code>brewByState %&gt;% filter(State == &quot; WV&quot;)</code></pre>
+<pre><code>##   Brewery_id            BeerName Beer_ID   ABV IBU                   Style Ounces                           Brewery      City State
+## 1        157 Wild Trail Pale Ale    2314 0.057  44 American Pale Ale (APA)     12 Greenbrier Valley Brewing Company Lewisburg    WV
+## 2        157   Mothman Black IPA    2313 0.067  71      American Black Ale     12 Greenbrier Valley Brewing Company Lewisburg    WV</code></pre>
+</div>
+<div id="question-5-max-abv-ibu-by-state" class="section level2">
+<h2>Question 5: MAX ABV, IBU by state</h2>
+<p>The state with the highest ABV value was Colorado, with an ABV of 12.8%. The state with the highest IBU was Oregon, with an IBU of 138.</p>
+<pre class="r"><code>#Print the state with the maximum ABV value
+brewByState[which.max(brewByState$ABV),]</code></pre>
+<pre><code>##     Brewery_id                                             BeerName Beer_ID   ABV IBU            Style Ounces                 Brewery    City
+## 375         52 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128  24 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder
+##     State
+## 375    CO</code></pre>
+<pre class="r"><code>#Print the state with maximum IBU value
+brewByState[which.max(brewByState$IBU),]</code></pre>
+<pre><code>##      Brewery_id                  BeerName Beer_ID   ABV IBU                          Style Ounces                 Brewery    City State
+## 1857        375 Bitter Bitch Imperial IPA     980 0.082 138 American Double / Imperial IPA     12 Astoria Brewing Company Astoria    OR</code></pre>
+</div>
+<div id="question-6-summary-statistics-abv" class="section level2">
+<h2>Question 6: Summary statistics ABV</h2>
+<p>The Summary Statistics of Percent ABV are: Min: 1.0% Q1: 5.0% Median: 5.6% Mean: 5.972% Q3: 6.7% Max: 12.8%</p>
+<p>The mean is larger than the median and this is a right-skewed distribution.</p>
+<pre class="r"><code>#Print summary of ABV statistics by state.
+summary(brewByState$ABV)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.00100 0.05000 0.05600 0.05972 0.06700 0.12800</code></pre>
+<pre class="r"><code>#Print histogram of ABV values
+brewByState  %&gt;% ggplot(aes(ABV)) + 
+  geom_histogram( color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;) + 
+  ggtitle(&quot;Distribution of ABV&quot;) +
+  xlab(&quot;ABV&quot;) + ylab(&quot;Count&quot;) +
+  theme_economist()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
+<pre class="r"><code>#Print box plot of ABV values by State
+ggplot(data=brewByState, aes(y=ABV,x=State)) + 
+  geom_boxplot(color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;) + 
+  ggtitle(&quot;Distribution of ABV by state&quot;) +
+  xlab(&quot;State&quot;) + ylab(&quot;ABV&quot;) +
+  theme_economist()</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-11-2.png" width="1440" /></p>
+<p>#Question 7: Correlation</p>
+<p>After looking at the scatter plot below, we see there is a positive correlation between ABV and IBU, with a pearson correlation of .59.</p>
+<pre class="r"><code>#Calculate pearson correlation for ABV and IBU
+pearson.cor &lt;- round(cor(brewByState$ABV, brewByState$IBU),2)
+pearson.cor</code></pre>
+<pre><code>## [1] 0.59</code></pre>
+<pre class="r"><code>#Print scatter plot of ABV vs IBU with pearson correlation value
+brewByState %&gt;%
+ggplot(aes(x =  ABV , y = IBU)) + geom_point() + 
+  geom_smooth(method=lm, linetype=&quot;dashed&quot;,
+              color=&quot;darkred&quot;, fill=&quot;red&quot;) +
+  annotate(x=0.02, y=95, 
+           label= paste(&quot;Pearson Correlation = &quot;, pearson.cor), 
+           geom=&quot;text&quot;, size=6, color = &quot;red&quot;)+
+  ggtitle(&quot;Relationship between ABV and IBU&quot;)+
+   theme_economist()</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-12-1.png" width="1440" /></p>
+<p>#Question 8: KNN</p>
+<p>Used kNN and Naive Bayes to create classification models. The kNN model had better accuracy than the Naive Bayes. We also used a beer from outside this data set to test the model.</p>
+<pre class="r"><code>#Use NLP to extract data for IPA and Ales
+brewByState$BeerClass = case_when(grepl(&quot;\\bIPA\\b&quot;, brewByState$Style, ignore.case = TRUE) ~ &quot;IPA&quot;,
+                      grepl(&quot;\\bALE\\b&quot;, brewByState$Style, ignore.case = TRUE ) ~ &quot;ALE&quot;,
+                      TRUE ~ &quot;none&quot;)
+# Remove irrelevant beer types to improve performance
+brewByState &lt;- brewByState %&gt;%  filter(BeerClass != &quot;none&quot;)
+#kNN Classification
+set.seed(150)
+iterations = 100
+numks = 40
+masterAcc = matrix(nrow = iterations, ncol = numks)
+splitPerc = .7
+for(j in 1:iterations)
+{
+  trainIndices = sample(1:dim(brewByState)[1],round(splitPerc * dim(brewByState)[1]))
+  train = brewByState[trainIndices,]
+  test = brewByState[-trainIndices,]
+  
+  for(i in 1:numks)
+  {
+    classifications = knn(train[,c(4,5)],test[,c(4,5)],train$BeerClass, prob = TRUE, k = i)
+    table(classifications,test$BeerClass)
+    CM = confusionMatrix(table(classifications,test$BeerClass))
+    masterAcc[j,i] = CM$overall[1]
+  }
+  
+}
+MeanAcc = colMeans(masterAcc)
+#Graph of k Value vs. Accuracy
+plot(seq(1,numks,1),MeanAcc, type = &quot;l&quot;, main = &quot;Values of k vs. Accuracy&quot;, xlab = &quot;Value of k&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>max(MeanAcc)</code></pre>
+<pre><code>## [1] 0.9049565</code></pre>
+<pre class="r"><code>which(MeanAcc==max(MeanAcc)) </code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>#Found best k = 5. Building complete model to find confusion matrix for best k.
+sample_size &lt;- floor(0.70 * nrow(brewByState))
+train_index &lt;- sample(seq_len(nrow(brewByState)), size = sample_size)
+train &lt;- brewByState[train_index, ]
+test &lt;- brewByState[-train_index, ]
+knn.model &lt;- knn(train = train[,4:5], test = test[,4:5], cl = train$BeerClass, k=5)
+table(test$BeerClass,knn.model)</code></pre>
+<pre><code>##      knn.model
+##       ALE IPA
+##   ALE 256  24
+##   IPA  36 145</code></pre>
+<pre class="r"><code>#Print confusion matrix for k=5
+CM = confusionMatrix(table(test$BeerClass,knn.model))
+CM$overall[1]</code></pre>
+<pre><code>##  Accuracy 
+## 0.8698482</code></pre>
+<pre class="r"><code>CM</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##      knn.model
+##       ALE IPA
+##   ALE 256  24
+##   IPA  36 145
+##                                           
+##                Accuracy : 0.8698          
+##                  95% CI : (0.8357, 0.8992)
+##     No Information Rate : 0.6334          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.7239          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.1556          
+##                                           
+##             Sensitivity : 0.8767          
+##             Specificity : 0.8580          
+##          Pos Pred Value : 0.9143          
+##          Neg Pred Value : 0.8011          
+##              Prevalence : 0.6334          
+##          Detection Rate : 0.5553          
+##    Detection Prevalence : 0.6074          
+##       Balanced Accuracy : 0.8674          
+##                                           
+##        &#39;Positive&#39; Class : ALE             
+## </code></pre>
+<pre class="r"><code>#Classification examples
+#Examples used (not in our dataset!): 512 IPA: 65 IBU and 6.6% ABV &amp; Fireant Funeral Amber Ale: 32 IBU and 6% ABV
+examples.classify &lt;- data.frame(ABV = c(0.072, 0.06), 
+       IBU = c(65, 32))
+
+class.examples = knn(train[,4:5],examples.classify,train$BeerClass, prob = TRUE, k = 5)
+class.examples</code></pre>
+<pre><code>## [1] IPA ALE
+## attr(,&quot;prob&quot;)
+## [1] 1 1
+## Levels: ALE IPA</code></pre>
+<pre class="r"><code>#Building Naive Bayes model using 100 iterations to see if it is a better classification model than kNN.
+set.seed(150)
+iterations = 100
+masterAcc = matrix(nrow = iterations)
+masterSensitivity = matrix(nrow = iterations)
+masterSpecificity = matrix(nrow = iterations)
+splitPerc = .7
+for(i in 1:iterations)
+{
+  trainIndices = sample(1:dim(brewByState)[1],round(splitPerc * dim(brewByState)[1]))
+  train = brewByState[trainIndices,]
+  test = brewByState[-trainIndices,]
+  
+  model.nb.train &lt;- naiveBayes(BeerClass ~ ABV + IBU, data = brewByState)
+  predictions.nb &lt;- predict(model.nb.train, data.frame(ABV = test$ABV, 
+                                                       IBU = test$IBU) )
+  CM = confusionMatrix(table(predictions.nb, test$BeerClass))
+  
+  masterAcc[i] = CM$overall[1]
+  masterSensitivity[i] = CM$byClass[1]
+  masterSpecificity[i] = CM$byClass[2]
+  
+}
+MeanAcc = colMeans(masterAcc)
+MeanSensitivity = colMeans(masterSensitivity)
+MeanSpecificity = colMeans(masterSpecificity)  
+#Print accuracy, sensitivity, and specificity for the Naive Bayes model
+MeanAcc</code></pre>
+<pre><code>## [1] 0.8748478</code></pre>
+<pre class="r"><code>MeanSensitivity</code></pre>
+<pre><code>## [1] 0.8939974</code></pre>
+<pre class="r"><code>MeanSpecificity</code></pre>
+<pre><code>## [1] 0.8426999</code></pre>
+<p>#Question 9: Useful Inference</p>
+<p>As shown earlier, West Virginia and Delaware only have two beers in each state. There could be a good opportunity to sell beer here! We analyzed the most popular beers in states neighboring WV and DE. Based upon the statistics for the neighboring states, in Delaware, we think an American IPA with an IBU of 50-60 and an ABV of ~7%, an Imperial IPA with 80-90 IBU and ~8% ABV, or a Belgian Pale Ale with an IBU of ~20 and an ABV fo 7% would be successful here. In West Virginia, based upon the statistics in neighboring states, we think an American IPA of ~70 IBU and ABV of 6-7% or an APA with 45 IBU and an ABV 5-6% would be successful here.</p>
+<pre class="r"><code>#Beers in DE: IPA and APA
+brewByState %&gt;% filter(State == &quot; DE&quot;)</code></pre>
+<pre><code>##   Brewery_id            BeerName Beer_ID   ABV IBU                   Style Ounces                        Brewery       City State BeerClass
+## 1        317    Appreciation Ale    1784 0.065  69            American IPA     16 Iron Hill Brewery &amp; Restaurant Wilmington    DE       IPA
+## 2        540 Greenville Pale Ale     433 0.055  52 American Pale Ale (APA)     12     Twin Lakes Brewing Company Greenville    DE       ALE</code></pre>
+<pre class="r"><code>#Beers in WV: Black Ale and APA
+brewByState %&gt;% filter(State == &quot; WV&quot;)</code></pre>
+<pre><code>##   Brewery_id            BeerName Beer_ID   ABV IBU                   Style Ounces                           Brewery      City State BeerClass
+## 1        157 Wild Trail Pale Ale    2314 0.057  44 American Pale Ale (APA)     12 Greenbrier Valley Brewing Company Lewisburg    WV       ALE
+## 2        157   Mothman Black IPA    2313 0.067  71      American Black Ale     12 Greenbrier Valley Brewing Company Lewisburg    WV       ALE</code></pre>
+<pre class="r"><code>#Create new data frame to hold the beers in states neighboring Delaware. Did not include Pennsylvania because it skewed this data.
+beersDE &lt;- brewByState %&gt;% filter(State == &quot; NJ&quot; | State == &quot; MD&quot;)
+#Print histogram for styles of beer in Delaware&#39;s neighbor states.
+beersDE %&gt;% ggplot(aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())  + ggtitle(&quot;Histogram of Beer Styles in DE&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-1.png" width="672" /></p>
+<pre class="r"><code>#Top 4 beers near DE: IPAs, American Black Ale, American Double / Imperial IPA,  and Belgian Pale Ale
+top4DE &lt;- beersDE %&gt;%  filter(Style ==&quot;American Double / Imperial IPA&quot; | Style == &quot;American IPA&quot;|Style == &quot;American Black Ale&quot;|Style == &quot;Belgian Pale Ale&quot;)
+#Print histogram of the most popular beer styles near Delaware.
+top4DE %&gt;% ggplot(aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) + ggtitle(&quot;Histogram of Top Beer Styles in DE&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-2.png" width="672" /></p>
+<pre class="r"><code>#Print scatter plot of ABV vs IBU by beer style near Delaware
+#Recommendation: American IPA w/ ~50-60 IBU and ABV of 7%, Imperial IPA with 80-90 IBU and 8% ABV, Belgian w/ IBU of ~20 and and ABV of 7%..
+top4DE %&gt;% ggplot(aes(x = ABV, y = IBU, color = Style)) + geom_point() + ggtitle(&quot;ABVs and IBUs of Top 4 beers in Delaware&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-3.png" width="672" /></p>
+<pre class="r"><code>#Create new data frame to hold the beers in neighboring States for West Virginia
+beersWV &lt;- brewByState %&gt;% filter(State == &quot; VA&quot; | State == &quot; PA&quot; | State == &quot; OH&quot; | State == &quot; KY&quot;)
+#Print histogram of the beer styles near West Virginia
+beersWV %&gt;% ggplot(aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) + ggtitle(&quot;Histogram of Beer Styles in WV&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-4.png" width="672" /></p>
+<pre class="r"><code>#Top 3 beers near West Virginia: IPAs, APAs, and American Amber / Red Ale
+top3WV &lt;- beersWV %&gt;%  filter(Style ==&quot;American Amber / Red Ale&quot; | Style == &quot;American IPA&quot; | Style == &quot;American Pale Ale (APA)&quot;)
+#Print the histogram of the top 3 beer styles
+top3WV %&gt;% ggplot(aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) + ggtitle(&quot;Histogram of Top Beer Styles in WV&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-5.png" width="672" /></p>
+<pre class="r"><code>#Print scatter plot of ABV vs IBU by Style for West Virginia
+#Recommendation: American IPA of ~70 IBU and ABV of 6-7%, APA of 45 IBU and 5-6% ABV. Red Ale is inconclusive
+top3WV %&gt;% ggplot(aes(x = ABV, y = IBU, color = Style)) + geom_point() + ggtitle(&quot;ABVs and IBUs of Top 3 beers in WV&#39;s Neighboring States&quot;)</code></pre>
+<p><img src="DDS_Ver6_files/figure-html/Question%209%20(Useful%20Inference)-6.png" width="672" /></p>
+<p>Conclusion: Breweries By State The state with the most breweries was Colorado, with 47 breweries. DC, North Dakota, South Dakota, and West Virginia only have one brewery. The top 3 states with breweries are: Colorado, California, and Michigan. These three states hold 21% of the nation’s breweries.</p>
+<p>Missing Data After merging the two data sets, we saw 41.7% of IBU values, 2.57% of ABV values, and .21% of Style values were missing. We replaced the missing IBU and ABV values using the median for each beer style. We did not replace missing style values. After this initial replacent by style, there were still 2.16% IBU values missing. We replaced these values with the global median IBU.</p>
+<p>Median ABV by State Range: 4.0%-6.0% Mean: 5.0%</p>
+<p>Median IBU by State Range: 17.75 – 60.5 Mean: 33.11 There are only two beers from Delaware &amp; West Virginia. These two states are outliers.</p>
+<p>Comparison of State Median IBU and ABV There is a positive correlation between median ABV and IBU. Pearson correlation = .28</p>
+<p>Maximum ABV Value The state with the highest ABV value is Colorado, with an ABV of 12.8%.</p>
+<p>Maximum IBU Value The state with the highest IBU value is Oregon, with an IBU of 138.</p>
+<p>Distribution of ABV The ABV distribution is right-skewed.</p>
+<p>Relationship between IBU and ABV There is a positive correlation between ABV and IBU. Pearson correlation = .59.</p>
+<p>kNN Classification: A kNN classification model with k = 5 gave the highest accuracy (Accuracy = .905). This model had a specificity of .8767 and a sensitivity of .8580. We also used test data from outside of the dataset. The model classified each beer correctly with 100% probability.</p>
+<p>Useful inferences: Based upon the most popular beers in Delaware’s neighbor states, we recommend the following new products: American IPA with 50-60 IBU and 7% ABV Imperial IPA with 80-90 IBU and 8% ABV Belgian Pale Ale with 20 IBU and 7% ABV</p>
+<p>Based upon the most popular beers in West Virginia’s neighbor states, we recommend the following new products: American IPA with 70 IBU and ABV of 6-7% American Pale Ale (APA) with 45 IBU and 5-6% ABV</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
