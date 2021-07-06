@@ -245,7 +245,10 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="DDS_Ver6.html">CLT</a>
+  <a href="about.html">About Me</a>
+</li>
+<li>
+  <a href="DDS_Ver6.html">Case Study 1</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -325,10 +328,10 @@ Breweries.By.State</code></pre>
 ## # ... with 41 more rows</code></pre>
 <pre class="r"><code>#Plot in descending order by # of breweries per state
 Breweries.By.State %&gt;% ggplot(aes(x = reorder(State, -count) , y = count, fill = State)) + geom_bar(stat = &quot;identity&quot;) + ggtitle(&quot;Breweries in Each State&quot;, &quot;In Descending Order&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-1.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-3-1.png" width="1440" /></p>
 <pre class="r"><code>#Plot in alphabetical order of States
 ggplot(Breweries.By.State, mapping = aes(x = State, y = count, fill = State)) + geom_bar(stat = &quot;identity&quot;) + ggtitle(&quot;Breweries in Each State&quot;, &quot;In Alphabetical Order by State&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-2.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-3-2.png" width="1440" /></p>
 <pre class="r"><code>#Create the US Map showing distribution of breweries
 Breweries.By.State.Graph &lt;- Breweries.By.State
 Breweries.By.State.Graph$State &lt;- trimws(Breweries.By.State.Graph$State)
@@ -338,7 +341,7 @@ plot_usmap(data = Breweries.By.State.Graph, values = &quot;count&quot;, color = 
     low = &quot;white&quot;, high = &quot;red&quot;, name = &quot;Breweries per State&quot;, label = scales::comma
   ) + theme(legend.position = &quot;right&quot;) + 
   ggtitle(&quot;Breweries per State&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-3.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-3-3.png" width="1440" /></p>
 <pre class="r"><code>#Pie Chart showing percentage of breweries held by top three states 
 Breweries.By.State.Graph</code></pre>
 <pre><code>## # A tibble: 51 x 2
@@ -368,7 +371,7 @@ pct &lt;- round(slices/sum(slices)*100)
 lbls &lt;- paste(lbls, pct) # add percents to labels
 lbls &lt;- paste(lbls,&quot;%&quot;,sep=&quot;&quot;) # ad % to labels
 pie(slices, labels = lbls, main=&quot;Percentage of Breweries Held by CO, CA, and MI&quot;, col=rainbow(length(lbls)))</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-4.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-3-4.png" width="1440" /></p>
 </div>
 <div id="question-2-merge-data" class="section level2">
 <h2>Question 2: Merge Data</h2>
@@ -405,7 +408,7 @@ brewByState[prev:last,]</code></pre>
 <p>After merging the two data sets, we visualized the missing data. 41.7% of IBU values, 2.57% of ABV values were missing, and .21% of Style values were missing. We elected to replace the missing IBU and ABV values using the median value for each corresponding beer style. After this first replacement, there were no missing ABV values; however, there were a remaining 52 missing IBU values. This is because there were 9 beer styles that had no pre-existing IBU information. In the histogram of this missing information, we can see that most of these beers are ciders. We chose to replace these IBU values with the global median IBU value. We did not replace the missing style values because we did not think it would impact future analysis with the data.</p>
 <pre class="r"><code>#Visualize missing data
 vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After merging beers and breweries&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code># replace NA with Median by Style - if exists
 # na.aggregate: Replace NA by Aggregation
 brewByState &lt;- as.data.frame(brewByState %&gt;%
@@ -415,17 +418,17 @@ brewByState &lt;- as.data.frame(brewByState %&gt;%
 
 # after first na treatment we still have 2.57% of missing values for IBU
 vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After replacing missing values with median by style&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 <pre class="r"><code>#Create data frame to plot the distribution of beer styles with no IBU information
 stillMissingIBUs &lt;- brewByState %&gt;% filter(is.na(IBU))
 ggplot(stillMissingIBUs, mapping = aes(x = Style, fill = Style)) + geom_bar(stat = &quot;count&quot;) + theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) + ggtitle(&quot;Beer Styles Without Pre-Existing IBU Values&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
 <pre class="r"><code># the percentage of missing values is rather small -&gt; we will replace it with global median
 brewByState$IBU[is.na(brewByState$IBU)]&lt;-median(brewByState$IBU,na.rm=TRUE)
 
 vis_miss(brewByState) + ggtitle(&quot;Missing Data in Merged Dataset&quot;, &quot;After replacing remaining values with global median&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-4.png" width="672" /> #Question 4: Compute the median alcohol content and IBU for each state After calculating the median ABV for each state, the range of these values is 4.0% - 6.5% and the mean is 5.0%. The range of the median IBUs is 17.75 – 60.5 and the mean is 33.11. Delaware &amp; West Virginia are outliers and only have two beers from each state.</p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-5-4.png" width="672" /> #Question 4: Compute the median alcohol content and IBU for each state After calculating the median ABV for each state, the range of these values is 4.0% - 6.5% and the mean is 5.0%. The range of the median IBUs is 17.75 – 60.5 and the mean is 33.11. Delaware &amp; West Virginia are outliers and only have two beers from each state.</p>
 <pre class="r"><code>#Show summary statistics for median ABV and IBU
 brewByState.Stats &lt;- brewByState %&gt;% group_by(State) %&gt;% 
   dplyr::summarise(medianABV = median(ABV), medianIBU = median(IBU), maxABV = max(ABV), maxIBU = max(IBU))  
@@ -450,14 +453,14 @@ brewByState.Stats %&gt;% ggplot(aes(x = reorder(State, -medianABV) , y = medianA
   ggtitle(&quot;Median ABV by State&quot;) +
   xlab(&quot;State&quot;) + ylab(&quot;Median ABV&quot;) +
   theme_economist()</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-1.png" width="1440" /></p>
 <pre class="r"><code>#Print graph of Median IBU by State
 brewByState.Stats %&gt;% ggplot(aes(x = reorder(State, -medianIBU) , y = medianIBU)) + 
   geom_bar(stat = &quot;identity&quot; , color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;)+
   ggtitle(&quot;Median IBU by State&quot;) +
   xlab(&quot;State&quot;) + ylab(&quot;Median IBU&quot;) +
   theme_economist()</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-2.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-2.png" width="1440" /></p>
 <pre class="r"><code>#Print graph showing relationship between Median IBU and Median ABV
 brewByState.Stats %&gt;%
 ggplot(aes(x =  medianIBU , y = medianABV)) + geom_point() + 
@@ -466,7 +469,7 @@ ggplot(aes(x =  medianIBU , y = medianABV)) + geom_point() +
   ggtitle(&quot;Median ABV VS median IBU by State&quot;)+
    theme_economist()</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-3.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-6-3.png" width="1440" /></p>
 <pre class="r"><code>#Calculate pearson correlation for median IBU and ABV
 pearson.cor &lt;- round(cor(brewByState.Stats$medianIBU, brewByState.Stats$medianABV),2)
 pearson.cor</code></pre>
@@ -486,10 +489,8 @@ brewByState %&gt;% filter(State == &quot; DE&quot;)</code></pre>
 <p>The state with the highest ABV value was Colorado, with an ABV of 12.8%. The state with the highest IBU was Oregon, with an IBU of 138.</p>
 <pre class="r"><code>#Print the state with the maximum ABV value
 brewByState[which.max(brewByState$ABV),]</code></pre>
-<pre><code>##     Brewery_id                                             BeerName Beer_ID   ABV IBU            Style Ounces                 Brewery    City
-## 375         52 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128  24 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder
-##     State
-## 375    CO</code></pre>
+<pre><code>##     Brewery_id                                             BeerName Beer_ID   ABV IBU            Style Ounces                 Brewery    City State
+## 375         52 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128  24 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder    CO</code></pre>
 <pre class="r"><code>#Print the state with maximum IBU value
 brewByState[which.max(brewByState$IBU),]</code></pre>
 <pre><code>##      Brewery_id                  BeerName Beer_ID   ABV IBU                          Style Ounces                 Brewery    City State
@@ -510,14 +511,14 @@ brewByState  %&gt;% ggplot(aes(ABV)) +
   xlab(&quot;ABV&quot;) + ylab(&quot;Count&quot;) +
   theme_economist()</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
 <pre class="r"><code>#Print box plot of ABV values by State
 ggplot(data=brewByState, aes(y=ABV,x=State)) + 
   geom_boxplot(color = &quot;darkblue&quot;, fill = &quot;#FF6666&quot;) + 
   ggtitle(&quot;Distribution of ABV by state&quot;) +
   xlab(&quot;State&quot;) + ylab(&quot;ABV&quot;) +
   theme_economist()</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-11-2.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-8-2.png" width="1440" /></p>
 <p>#Question 7: Correlation</p>
 <p>After looking at the scatter plot below, we see there is a positive correlation between ABV and IBU, with a pearson correlation of .59.</p>
 <pre class="r"><code>#Calculate pearson correlation for ABV and IBU
@@ -535,7 +536,7 @@ ggplot(aes(x =  ABV , y = IBU)) + geom_point() +
   ggtitle(&quot;Relationship between ABV and IBU&quot;)+
    theme_economist()</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-12-1.png" width="1440" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
 <p>#Question 8: KNN</p>
 <p>Used kNN and Naive Bayes to create classification models. The kNN model had better accuracy than the Naive Bayes. We also used a beer from outside this data set to test the model.</p>
 <pre class="r"><code>#Use NLP to extract data for IPA and Ales
@@ -568,7 +569,7 @@ for(j in 1:iterations)
 MeanAcc = colMeans(masterAcc)
 #Graph of k Value vs. Accuracy
 plot(seq(1,numks,1),MeanAcc, type = &quot;l&quot;, main = &quot;Values of k vs. Accuracy&quot;, xlab = &quot;Value of k&quot;)</code></pre>
-<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="DDS_Ver6_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>max(MeanAcc)</code></pre>
 <pre><code>## [1] 0.9049565</code></pre>
 <pre class="r"><code>which(MeanAcc==max(MeanAcc)) </code></pre>
